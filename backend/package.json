@@ -15,11 +15,13 @@
     "@prisma/client": "^7.9.1",
     "bcrypt": "^6.0.0",
     "express": "latest",
+    "jsonwebtoken": "^9.0.0",
     "pg": "^8.23.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/express": "latest",
+    "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "latest",
     "prisma": "^7.9.1",
     "tsx": "latest",
