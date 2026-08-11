@@ -4,6 +4,19 @@
 .env.local
 .env.*.local
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Prisma
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
+# Build output
+backend/dist/
+frontend/dist/
+
 # Node / generated folders
 node_modules/
 dist/
