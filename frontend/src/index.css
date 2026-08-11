@@ -192,6 +192,20 @@ textarea {
   background: #f0f1f5;
 }
 
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b83a3a;
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .table-wrap {
   overflow-x: auto;
   background: var(--color-surface);
@@ -260,6 +274,30 @@ textarea {
   color: var(--color-text-muted);
 }
 
+.pill-active {
+  background: #e4f7ea;
+  color: #1f8a3d;
+}
+
+.pill-inactive {
+  background: #f1f2f4;
+  color: var(--color-text-muted);
+}
+
+.pill-warning {
+  background: #fdecec;
+  color: var(--color-danger);
+  margin-left: 6px;
+}
+
+.stock-value {
+  font-weight: 600;
+}
+
+.stock-low {
+  color: var(--color-danger);
+}
+
 .pagination-bar {
   display: flex;
   align-items: center;
@@ -325,6 +363,34 @@ textarea {
   justify-content: flex-end;
   gap: 12px;
   margin-top: 20px;
+}
+
+.form-actions-start {
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+.field-checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.field-checkbox input {
+  width: auto;
+}
+
+.field-note {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  align-self: center;
+}
+
+.stock-movement-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 560px;
 }
 
 .detail-grid {

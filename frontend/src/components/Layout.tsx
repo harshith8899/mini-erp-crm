@@ -12,6 +12,12 @@ export default function Layout() {
           <NavLink to="/customers" className={({ isActive }) => (isActive ? 'active' : '')}>
             Customers
           </NavLink>
+          <NavLink to="/products" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Products
+          </NavLink>
+          <NavLink to="/warehouses" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Warehouses
+          </NavLink>
         </nav>
         <div className="app-header-user">
           {user && (

@@ -66,3 +66,97 @@ export interface CustomerFormInput {
   followUpDate: string;
   notes: string;
 }
+
+// ===== Inventory =====
+
+export type MovementType = 'IN' | 'OUT';
+
+export interface WarehouseRef {
+  id: string;
+  name: string;
+  location: string;
+}
+
+export interface WarehouseProductSummary {
+  id: string;
+  name: string;
+  sku: string;
+  currentStock: number;
+  isActive: boolean;
+}
+
+export interface Warehouse {
+  id: string;
+  name: string;
+  location: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  products?: WarehouseProductSummary[];
+}
+
+export interface WarehouseListResponse {
+  data: Warehouse[];
+  pagination: PaginationMeta;
+}
+
+export interface WarehouseFormInput {
+  name: string;
+  location: string;
+  isActive: boolean;
+}
+
+export interface StockMovementAuthor {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+}
+
+export interface StockMovement {
+  id: string;
+  productId: string;
+  challanId: string | null;
+  quantity: number;
+  movementType: MovementType;
+  reason: string;
+  createdById: string | null;
+  createdAt: string;
+  createdBy: StockMovementAuthor | null;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  sku: string;
+  category: string | null;
+  unitPrice: string;
+  currentStock: number;
+  minimumStockAlert: number;
+  warehouseId: string | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  warehouse?: WarehouseRef | null;
+  stockMovements?: StockMovement[];
+}
+
+export interface ProductListResponse {
+  data: Product[];
+  pagination: PaginationMeta;
+}
+
+export interface ProductFormInput {
+  name: string;
+  sku: string;
+  category: string;
+  unitPrice: string;
+  minimumStockAlert: string;
+  warehouseId: string;
+  isActive: boolean;
+}
+
+export interface StockMovementFormInput {
+  quantity: string;
+  reason: string;
+}

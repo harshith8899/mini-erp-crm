@@ -2,6 +2,8 @@ import cors from './middleware/cors.middleware';
 import express, { Request, Response } from 'express';
 import authRoutes from './modules/auth/auth.routes';
 import customersRoutes from './modules/customers/customers.routes';
+import productsRoutes from './modules/inventory/products/products.routes';
+import warehousesRoutes from './modules/inventory/warehouses/warehouses.routes';
 import authenticate from './middleware/auth.middleware';
 import { requireRole } from './middleware/role.middleware';
 
@@ -17,6 +19,8 @@ app.get('/api/health', (_req: Request, res: Response) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/customers', customersRoutes);
+app.use('/api/products', productsRoutes);
+app.use('/api/warehouses', warehousesRoutes);
 
 app.listen(port, () => {
   console.log(`Backend API running on http://localhost:${port}`);
