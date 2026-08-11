@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express';
 import authRoutes from './modules/auth/auth.routes';
+import authenticate from './middleware/auth.middleware';
+import { requireRole } from './middleware/role.middleware';
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
