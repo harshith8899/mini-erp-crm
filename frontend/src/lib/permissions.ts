@@ -9,3 +9,11 @@ const INVENTORY_WRITE_ROLES: UserRole[] = ['ADMIN', 'WAREHOUSE'];
 export function canWriteInventory(role: UserRole | null | undefined): boolean {
   return Boolean(role && INVENTORY_WRITE_ROLES.includes(role));
 }
+
+// Approved decision for Sales/Challans: ADMIN + SALES have full write access
+// (create/edit-while-draft/confirm/cancel); WAREHOUSE/ACCOUNTS are read-only.
+const CHALLAN_WRITE_ROLES: UserRole[] = ['ADMIN', 'SALES'];
+
+export function canWriteChallans(role: UserRole | null | undefined): boolean {
+  return Boolean(role && CHALLAN_WRITE_ROLES.includes(role));
+}

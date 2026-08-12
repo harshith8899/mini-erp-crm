@@ -6,7 +6,9 @@
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:3000" },
     { "key": "token", "value": "" },
-    { "key": "customerId", "value": "" }
+    { "key": "customerId", "value": "" },
+    { "key": "productId", "value": "" },
+    { "key": "challanId", "value": "" }
   ],
   "item": [
     {
@@ -177,6 +179,157 @@
               "raw": "{{baseUrl}}/api/customers/{{customerId}}/follow-ups",
               "host": ["{{baseUrl}}"],
               "path": ["api", "customers", "{{customerId}}", "follow-ups"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Challans",
+      "item": [
+        {
+          "name": "List Active Products (for productId)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const body = pm.response.json();",
+                  "  if (body.data && body.data.length > 0) {",
+                  "    pm.collectionVariables.set('productId', body.data[0].id);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/products?isActive=true&limit=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "products"],
+              "query": [
+                { "key": "isActive", "value": "true" },
+                { "key": "limit", "value": "1" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Challans",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/challans?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "challans"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "status", "value": "DRAFT", "disabled": true },
+                { "key": "customerId", "value": "", "disabled": true },
+                { "key": "search", "value": "", "disabled": true }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Challan (Draft)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const body = pm.response.json();",
+                  "  pm.collectionVariables.set('challanId', body.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"status\": \"DRAFT\",\n  \"items\": [\n    { \"productId\": \"{{productId}}\", \"quantity\": 2 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/challans",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "challans"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Challan",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/challans/{{challanId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "challans", "{{challanId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Challan (Draft only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    { \"productId\": \"{{productId}}\", \"quantity\": 5 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/challans/{{challanId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "challans", "{{challanId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Confirm Challan",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/challans/{{challanId}}/confirm",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "challans", "{{challanId}}", "confirm"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Challan",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/challans/{{challanId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "challans", "{{challanId}}", "cancel"]
             }
           },
           "response": []

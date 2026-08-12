@@ -12,6 +12,9 @@ import ProductFormPage from './pages/ProductFormPage';
 import WarehouseListPage from './pages/WarehouseListPage';
 import WarehouseDetailPage from './pages/WarehouseDetailPage';
 import WarehouseFormPage from './pages/WarehouseFormPage';
+import ChallanListPage from './pages/ChallanListPage';
+import ChallanDetailPage from './pages/ChallanDetailPage';
+import ChallanFormPage from './pages/ChallanFormPage';
 
 export default function App() {
   return (
@@ -33,6 +36,10 @@ export default function App() {
             <Route path="/warehouses/new" element={<WarehouseFormPage />} />
             <Route path="/warehouses/:id" element={<WarehouseDetailPage />} />
             <Route path="/warehouses/:id/edit" element={<WarehouseFormPage />} />
+            <Route path="/challans" element={<ChallanListPage />} />
+            <Route path="/challans/new" element={<ChallanFormPage />} />
+            <Route path="/challans/:id" element={<ChallanDetailPage />} />
+            <Route path="/challans/:id/edit" element={<ChallanFormPage />} />
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/customers" replace />} />

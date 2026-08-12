@@ -160,3 +160,73 @@ export interface StockMovementFormInput {
   quantity: string;
   reason: string;
 }
+
+// ===== Sales / Challans =====
+
+export type ChallanStatus = 'DRAFT' | 'CONFIRMED' | 'CANCELLED';
+
+export interface ChallanCustomerRef {
+  id: string;
+  name: string;
+  businessName: string | null;
+  mobile: string;
+}
+
+export interface ChallanAuthor {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+}
+
+export interface ChallanItemProductRef {
+  id: string;
+  name: string;
+  sku: string;
+  isActive: boolean;
+}
+
+export interface ChallanItem {
+  id: string;
+  challanId: string;
+  productId: string;
+  productNameSnapshot: string;
+  productSkuSnapshot: string;
+  unitPriceSnapshot: string;
+  quantity: number;
+  lineTotal: string;
+  product?: ChallanItemProductRef;
+}
+
+export interface Challan {
+  id: string;
+  challanNumber: string;
+  customerId: string;
+  status: ChallanStatus;
+  totalQuantity: number;
+  createdById: string | null;
+  createdAt: string;
+  confirmedAt: string | null;
+  updatedAt: string;
+  customer?: ChallanCustomerRef;
+  createdBy?: ChallanAuthor | null;
+  challanItems?: ChallanItem[];
+  stockMovements?: StockMovement[];
+  totalAmount?: string;
+}
+
+export interface ChallanListResponse {
+  data: Challan[];
+  pagination: PaginationMeta;
+}
+
+export interface ChallanLineInput {
+  productId: string;
+  quantity: number;
+}
+
+export interface ChallanFormLine {
+  productId: string;
+  quantity: string;
+}
+
