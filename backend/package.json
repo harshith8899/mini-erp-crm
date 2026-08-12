@@ -14,17 +14,19 @@
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "latest",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.23.0"
-    ,"dotenv": "^16.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "latest",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "latest",
-    "@types/dotenv": "^8.2.0",
     "prisma": "^7.9.1",
     "tsx": "latest",
     "typescript": "latest"
