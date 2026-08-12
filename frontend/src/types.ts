@@ -170,6 +170,9 @@ export interface ChallanCustomerRef {
   name: string;
   businessName: string | null;
   mobile: string;
+  email: string | null;
+  gstNumber: string | null;
+  address: string | null;
 }
 
 export interface ChallanAuthor {

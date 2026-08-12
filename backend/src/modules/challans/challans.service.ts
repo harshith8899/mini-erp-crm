@@ -18,7 +18,17 @@ export class ChallanServiceError extends Error {
 }
 
 const CHALLAN_DETAIL_INCLUDE = {
-  customer: { select: { id: true, name: true, businessName: true, mobile: true } },
+  customer: {
+    select: {
+      id: true,
+      name: true,
+      businessName: true,
+      mobile: true,
+      email: true,
+      gstNumber: true,
+      address: true
+    }
+  },
   createdBy: { select: { id: true, name: true, email: true, role: true } },
   challanItems: {
     include: { product: { select: { id: true, name: true, sku: true, isActive: true } } }
