@@ -95,7 +95,7 @@ export default function ChallanDetailPage() {
           </Link>
           <h1>{challan.challanNumber}</h1>
         </div>
-        <div style={{ display: 'flex', gap: 12 }}>
+        <div className="page-header-actions">
           <button className="btn btn-ghost" onClick={handleExportPdf}>
             Export PDF
           </button>
