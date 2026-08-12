@@ -4,6 +4,7 @@ import { cancelChallan, confirmChallan, getChallan } from '../lib/challans';
 import { ApiError } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { canWriteChallans } from '../lib/permissions';
+import { generateChallanPdf } from '../lib/challanPdf';
 import { Challan } from '../types';
 
 function formatDateTime(value: string | null | undefined) {
@@ -26,6 +27,7 @@ export default function ChallanDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [actionBusy, setActionBusy] = useState<'confirm' | 'cancel' | null>(null);
+  const [pdfError, setPdfError] = useState<string | null>(null);
 
   function reload() {
     if (!id) return;
@@ -66,6 +68,16 @@ export default function ChallanDetailPage() {
     }
   }
 
+  function handleExportPdf() {
+    if (!challan) return;
+    setPdfError(null);
+    try {
+      generateChallanPdf(challan);
+    } catch (err) {
+      setPdfError('Failed to generate PDF');
+    }
+  }
+
   if (loading) return <div className="page-status">Loading…</div>;
   if (error) return <div className="page-status page-status-error">{error}</div>;
   if (!challan) return <div className="page-status page-status-error">Challan not found.</div>;
@@ -84,6 +96,9 @@ export default function ChallanDetailPage() {
           <h1>{challan.challanNumber}</h1>
         </div>
         <div style={{ display: 'flex', gap: 12 }}>
+          <button className="btn btn-ghost" onClick={handleExportPdf}>
+            Export PDF
+          </button>
           {canEdit && (
             <Link className="btn btn-ghost" to={`/challans/${challan.id}/edit`}>
               Edit
@@ -103,6 +118,7 @@ export default function ChallanDetailPage() {
       </div>
 
       {actionError && <div className="form-error-banner">{actionError}</div>}
+      {pdfError && <div className="form-error-banner">{pdfError}</div>}
 
       <div className="card detail-card">
         <div className="detail-grid">

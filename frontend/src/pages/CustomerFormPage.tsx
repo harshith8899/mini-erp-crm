@@ -1,7 +1,9 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { createCustomer, getCustomer, updateCustomer } from '../lib/customers';
 import { ApiError } from '../lib/api';
+import { useAuth } from '../lib/auth';
+import { canWriteCustomers } from '../lib/permissions';
 import { CustomerFormInput, CustomerStatus, CustomerType } from '../types';
 
 const EMPTY_FORM: CustomerFormInput = {
@@ -54,6 +56,8 @@ export default function CustomerFormPage() {
   const { id } = useParams();
   const isEdit = Boolean(id);
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const canWrite = canWriteCustomers(user?.role);
 
   const [form, setForm] = useState<CustomerFormInput>(EMPTY_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -82,6 +86,9 @@ export default function CustomerFormPage() {
       .catch((err) => setSubmitError(err instanceof ApiError ? err.message : 'Failed to load customer'))
       .finally(() => setLoading(false));
   }, [id, isEdit]);
+
+  // Role hiding here is UX only — the backend requireRole middleware is the real enforcement.
+  if (!canWrite) return <Navigate to="/customers" replace />;
 
   function updateField<K extends keyof CustomerFormInput>(key: K, value: CustomerFormInput[K]) {
     setForm((f) => ({ ...f, [key]: value }));

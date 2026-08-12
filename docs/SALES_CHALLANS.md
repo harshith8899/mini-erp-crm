@@ -102,6 +102,8 @@ reused as-is). The frontend also hides write actions (New/Edit/Confirm/Cancel bu
 WAREHOUSE/ACCOUNTS users for UX — but this is presentation only; every write endpoint
 independently re-checks the role server-side regardless of what the UI shows.
 
+See `docs/PERMISSIONS.md` for the full cross-module permission matrix and role rationale.
+
 ## APIs
 
 All endpoints are under `/api/challans` and require `Authorization: Bearer <token>`.
