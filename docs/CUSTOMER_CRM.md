@@ -198,8 +198,15 @@ no router yet) to support multiple pages:
 
 - `LoginPage` — signs in and stores the JWT (the scaffold had no login UI before this feature).
 - `CustomerListPage` — search, status/type filters, pagination, loading/empty/error states.
-- `CustomerDetailPage` — customer info, follow-up history, add-follow-up form.
-- `CustomerFormPage` — shared add/edit form with client-side validation.
+  "+ Add Customer" and the per-row "Edit" link are hidden for WAREHOUSE/ACCOUNTS.
+- `CustomerDetailPage` — customer info, follow-up history, add-follow-up form. "Edit Customer"
+  and the entire "Add Follow-up" card are hidden for WAREHOUSE/ACCOUNTS.
+- `CustomerFormPage` — shared add/edit form with client-side validation. Redirects to
+  `/customers` if the signed-in role can't write customers, so WAREHOUSE/ACCOUNTS can't reach
+  `/customers/new` or `/customers/:id/edit` via a typed-in or bookmarked URL.
 
 `src/lib/api.ts` centralizes the fetch wrapper (base URL from `VITE_API_BASE_URL`, attaches the
 bearer token, normalizes errors) so no component hardcodes `localhost` URLs.
+`frontend/src/lib/permissions.ts`'s `canWriteCustomers(role)` (`ADMIN`, `SALES`) drives all of
+the above — presentation only, the backend `requireRole` middleware is the real enforcement. See
+`docs/PERMISSIONS.md` for the full cross-module permission matrix.

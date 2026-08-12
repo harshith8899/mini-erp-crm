@@ -2,6 +2,8 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { addFollowUp, getCustomer } from '../lib/customers';
 import { ApiError } from '../lib/api';
+import { useAuth } from '../lib/auth';
+import { canWriteCustomers } from '../lib/permissions';
 import { Customer } from '../types';
 
 function formatDateTime(value: string | null | undefined) {
@@ -11,6 +13,9 @@ function formatDateTime(value: string | null | undefined) {
 
 export default function CustomerDetailPage() {
   const { id } = useParams();
+  const { user } = useAuth();
+  const canWrite = canWriteCustomers(user?.role);
+
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -70,9 +75,11 @@ export default function CustomerDetailPage() {
           </Link>
           <h1>{customer.name}</h1>
         </div>
-        <Link className="btn btn-primary" to={`/customers/${customer.id}/edit`}>
-          Edit Customer
-        </Link>
+        {canWrite && (
+          <Link className="btn btn-primary" to={`/customers/${customer.id}/edit`}>
+            Edit Customer
+          </Link>
+        )}
       </div>
 
       <div className="card detail-card">
@@ -118,23 +125,25 @@ export default function CustomerDetailPage() {
         </div>
       </div>
 
-      <div className="card">
-        <h2>Add Follow-up</h2>
-        <form onSubmit={handleAddFollowUp} className="follow-up-form">
-          {noteError && <div className="form-error-banner">{noteError}</div>}
-          <label className="field">
-            <span>Note *</span>
-            <textarea rows={3} value={note} onChange={(e) => setNote(e.target.value)} />
-          </label>
-          <label className="field">
-            <span>Follow-up Date</span>
-            <input type="date" value={followUpDate} onChange={(e) => setFollowUpDate(e.target.value)} />
-          </label>
-          <button className="btn btn-primary" type="submit" disabled={submitting}>
-            {submitting ? 'Adding…' : 'Add Follow-up'}
-          </button>
-        </form>
-      </div>
+      {canWrite && (
+        <div className="card">
+          <h2>Add Follow-up</h2>
+          <form onSubmit={handleAddFollowUp} className="follow-up-form">
+            {noteError && <div className="form-error-banner">{noteError}</div>}
+            <label className="field">
+              <span>Note *</span>
+              <textarea rows={3} value={note} onChange={(e) => setNote(e.target.value)} />
+            </label>
+            <label className="field">
+              <span>Follow-up Date</span>
+              <input type="date" value={followUpDate} onChange={(e) => setFollowUpDate(e.target.value)} />
+            </label>
+            <button className="btn btn-primary" type="submit" disabled={submitting}>
+              {submitting ? 'Adding…' : 'Add Follow-up'}
+            </button>
+          </form>
+        </div>
+      )}
 
       <div className="card">
         <h2>Follow-up History</h2>

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listCustomers } from '../lib/customers';
 import { ApiError } from '../lib/api';
+import { useAuth } from '../lib/auth';
+import { canWriteCustomers } from '../lib/permissions';
 import { Customer, CustomerListResponse, CustomerStatus, CustomerType } from '../types';
 
 const STATUS_OPTIONS: (CustomerStatus | '')[] = ['', 'LEAD', 'ACTIVE', 'INACTIVE'];
@@ -13,6 +15,9 @@ function formatDate(value: string | null) {
 }
 
 export default function CustomerListPage() {
+  const { user } = useAuth();
+  const canWrite = canWriteCustomers(user?.role);
+
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<CustomerStatus | ''>('');
   const [customerType, setCustomerType] = useState<CustomerType | ''>('');
@@ -62,9 +67,11 @@ export default function CustomerListPage() {
     <div className="page">
       <div className="page-header">
         <h1>Customers</h1>
-        <Link className="btn btn-primary" to="/customers/new">
-          + Add Customer
-        </Link>
+        {canWrite && (
+          <Link className="btn btn-primary" to="/customers/new">
+            + Add Customer
+          </Link>
+        )}
       </div>
 
       <div className="filters-bar">
@@ -129,7 +136,7 @@ export default function CustomerListPage() {
                     <td>{formatDate(c.followUpDate)}</td>
                     <td className="table-actions">
                       <Link to={`/customers/${c.id}`}>View</Link>
-                      <Link to={`/customers/${c.id}/edit`}>Edit</Link>
+                      {canWrite && <Link to={`/customers/${c.id}/edit`}>Edit</Link>}
                     </td>
                   </tr>
                 ))}
