@@ -1,11 +1,17 @@
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 
-const connectionString = process.env.DATABASE_URL;
+// load .env explicitly so this script is self-contained regardless of how it's invoked
+dotenv.config();
+
+// Seeding uses the direct (unpooled) connection, not the pooled DATABASE_URL the running
+// application uses — migration-adjacent operations behave more reliably on a direct connection.
+const connectionString = process.env.DIRECT_URL;
 
 if (!connectionString) {
-  throw new Error('DATABASE_URL is not set');
+  throw new Error('DIRECT_URL is not set');
 }
 
 const adapter = new PrismaPg({ connectionString });
