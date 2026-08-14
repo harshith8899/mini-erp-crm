@@ -15,6 +15,28 @@ https://mini-erp-crm-backend-h4j1.onrender.com/api/health
 
 ---
 
+## 🔐 Demo Login Credentials
+
+Use the following seeded accounts to test the different role-based permissions.
+
+| Role | Email | Password |
+|---|---|---|
+| **Admin** | `admin@mini-erp.local` | `Admin@123` |
+| **Sales** | `sales@mini-erp.local` | `Sales@123` |
+| **Warehouse** | `warehouse@mini-erp.local` | `Warehouse@123` |
+| **Accounts** | `accounts@mini-erp.local` | `Accounts@123` |
+
+### Role Overview
+
+- **Admin** — Full system access.
+- **Sales** — Customer management, follow-ups, and sales challan operations.
+- **Warehouse** — Product, warehouse, and stock management.
+- **Accounts** — Access to permitted operational and reporting data.
+
+> ⚠️ These are demo credentials created by the database seed script for evaluation purposes. They should be replaced with secure credentials before any real production use.
+
+---
+
 ## 📌 Project Overview
 
 The Mini ERP + CRM Operations Portal is designed for internal business teams such as:
